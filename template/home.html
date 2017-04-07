@@ -1,0 +1,56 @@
+
+<!-- КОРЗИНА ТОВАРА-->
+<div class="basket" id="basket" ng-hide="carts.length == 0" ng-show="carts.length > 0">
+  <div class="basket-wrap" ng-repeat="cart in carts">
+    <ul class="basket-list">
+      <li><span>Id товара:{{cart.id}}</span></li>
+      <li><button ng-click="minus($index)" class="plus">-</button><span> Кол-во:{{cart.num}} </span><button class="plus" ng-click="plus($index)">+</button></li>
+      <li class="cart-img"><img src="{{cart.imageUrl}}" alt="{{cart.name}}"></li>
+      <li><h4>{{cart.name}}</h4></li>
+      <li><p>Цена:{{cart.price}}$<i class="icon-cancel" ng-click="remove(index)"></i></p> </li>
+    </ul>  
+  </div>
+  <div>
+    <h5 id="sum">{{sum()}}$</h5>
+    <p>Общее кол-во товара:{{totalNum()}}</p>
+    <a class="Basket_cart" ng-click="form();">Заказать</a>
+  </div>  
+</div>
+<!---->
+<div class="container">
+  <div class="row row-offcanvas row-offcanvas-right">
+    <div class="col-md-12 col-sm-12 col-xs-4 top-btn">
+      <ul class="nav navbar-nav">
+        <li><button ng-click="sort('price')">Сортировка по цене</button></li>
+        <li><button ng-click="sort('name')">Сортировка по названию</button></li>
+        <li>
+          <h3 class="text-center">Фильтр телефонов</h3>
+          <form>
+            <input type="text" class="form-control" placeholder="Search..." ng-model="search">
+          </form>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 top-section">     
+      <div class="jumbotron text-center">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4 item" ng-repeat="phone in phones | filter:search | orderBy:sortField:reverse">
+          <div class="preview-img">
+            <img src="{{phone.imageUrl}}" alt="{{phone.name}}" />
+            <span class="label" 
+              ng-init="status = phone.status ? 'Есть в наличи': 'Под заказ'"
+              ng-class="{'label-success': phone.status, 'label-warning': !phone.status}">{{status}}
+              </span>
+              <p class="price">{{phone.price}}$</p>
+          </div>
+          <h2>{{phone.name}}</h2>
+          <p>{{phone.snippet}}</p>       
+          <p><a class="btn" href="" role="button" ng-click="addCart(phone.id, 1, phone.imageUrl, phone.name, phone.price)">Add to cart</a></p>
+          <p><a href="#/phones/{{phoneId}}">Страница товара</a></p>
+        </div>
+      </div>
+    </div>   
+  </div>
+  <hr>
